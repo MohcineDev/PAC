@@ -464,8 +464,8 @@ export function gameLoop() {
         moveInvadersBullet()
         moveEnimieContainer()
         checkForCollision_player_enimie()
-        REQID = requestAnimationFrame(gameLoop)
     }
+    REQID = requestAnimationFrame(gameLoop)
 
 }
 // let htmlCounter = document.querySelector('.counter')
