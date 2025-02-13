@@ -35,7 +35,10 @@ maxBullet.textContent = bulletInput.max
 HorInput.oninput = (e) => {
     console.log(e);
     horValue.textContent = e.target.value
+    console.log(moveEnimiesX);
+    
     moveEnimiesX = parseInt(e.target.value)
+    console.log(moveEnimiesX);
 }
 VerInput.oninput = (e) => {
     console.log(e);

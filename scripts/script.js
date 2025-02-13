@@ -80,6 +80,7 @@ document.addEventListener('keydown', e => {
         document.querySelector('.pause-popup span').textContent = countDown.textContent
         clearInterval(countDownInterval)
         clearInterval(invadersBulletInterval)
+        console.log("REQID : ", REQID);
 
         cancelAnimationFrame(REQID)
     }
@@ -378,7 +379,6 @@ function checkForCollision_player_invaderBullet(bullet) {
         explosion.style.display = 'none'
     }
     
-
     let bulletREC = bullet.getBoundingClientRect()
     let playerREC = player.getBoundingClientRect()
 
@@ -410,6 +410,7 @@ function checkForCollision_player_invaderBullet(bullet) {
 }
 
 function updateLives() {
+    
     if (player_invaderBullet) {
 
         lives--
@@ -446,6 +447,7 @@ function updateFPS() {
 ///to remove the setInterval
 let counter = 0
 export function gameLoop() {
+console.log('hi');
 
     if (!isGameOver) {
         counter++
@@ -464,8 +466,8 @@ export function gameLoop() {
         moveInvadersBullet()
         moveEnimieContainer()
         checkForCollision_player_enimie()
+        REQID = requestAnimationFrame(gameLoop)
     }
-    REQID = requestAnimationFrame(gameLoop)
 
 }
 // let htmlCounter = document.querySelector('.counter')
@@ -485,12 +487,6 @@ export function init() {
     enimieContainer.style.transform = `translate(0px,0px)`
     gameSetting.canShoot = true
     ///
-    ///remove from gameover
-    clearInterval(countDownInterval)
-    countDownInterval = null
-    clearInterval(invadersBulletInterval)
-    invadersBulletInterval = null
-
     countDown.textContent = '01:10'
     // handleCountDown()
 
@@ -525,7 +521,6 @@ function removeDOMBullets() {
 
 }
 
-let countDownInterval = null
 ///count-down
 export function handleCountDown() {
 
@@ -586,6 +581,7 @@ function rerer(seconds, minutes) {
     }
 
 }
+
 function gameOver(from) {
     gameSetting.canShoot = false
     isGameOver = true
@@ -593,19 +589,13 @@ function gameOver(from) {
     document.body.classList.add('over')
     document.querySelector('.restart-popup p').textContent = from
 
-    clearInterval(countDownInterval)
-    countDownInterval = null
-    clearInterval(invadersBulletInterval)
-    invadersBulletInterval = null
-
 
     Explo.hide = false
     Explo.time = 0
     explosion.style.display = 'none'
-
-
-
-
+    console.log("REQID : ", REQID);
+    
+    cancelAnimationFrame(REQID)
 }
 
 function gameWin() {
