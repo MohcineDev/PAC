@@ -1,5 +1,5 @@
 export let moveEnimiesX = 3
-export let moveEnimiesY = 5
+export let moveEnimiesY = 8
 export const movePlayerSpeed = 5
 export let bulletSpeed = 6
 
