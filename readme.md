@@ -34,8 +34,12 @@ Space Invader is a classic arcade-style game built using HTML, CSS, and JavaScri
 1. Download the repository to your local machine or clone it using Git:
 
    ```bash
-   git clone https://github.com/MohcineDev/PAC.git
+   git clone https://github.com/MohcineDev/PAC.git```
+2. open in vs code 
+   ```bash 
+   code .
+   ```
+3. open index.html in a browser
 
-<div align="center">
+
 <img src="./imgs/p.png" />
-</div>

@@ -1,6 +1,7 @@
 import { moveEnimiesX, moveEnimiesY, movePlayerSpeed, bulletSpeed, HorInput, VerInput, bulletInput } from './speed.js'
 import { restartScore } from './popups.js'
 
+// get elements
 const canvas = document.querySelector('.canvas')
 const optionsScore = document.querySelector('.options-score span')
 const countDown = document.querySelector('.count-down')
@@ -10,16 +11,17 @@ const winScore = document.querySelector('.game-win-popup h1 span')
 
 const playerWidth = player.clientWidth
 let canvasREC = canvas.getBoundingClientRect()
+export let isGameOver = false
 
+
+//listen for resize event
 addEventListener('resize', () => {
-    console.log(132);
     canvasREC = canvas.getBoundingClientRect()
 
 })
 
 let Score = 0
 let REQID = null
-export let isGameOver = false
 
 let lives = 3
 let playerREC = player.getBoundingClientRect()
@@ -31,6 +33,14 @@ let moveHor = playerInitX
 let moveEnimiesHor = 0
 let moveEnimiesVer = 0
 
+let keys = {}
+
+export let gameSetting = {
+    canShoot: true
+}
+let playerX = null
+let paused = false
+
 player.style.transform = `translate(${playerInitX}px)`
 
 function getPlayerXRelativeToCanvas(player, canvas) {
@@ -40,17 +50,12 @@ function getPlayerXRelativeToCanvas(player, canvas) {
     return playerRect.left - canvasRect.left
 }
 
-let keys = {}
-
+//event when the user releases a key on the keyboard
 document.addEventListener('keyup', e => {
     keys[e.key] = false
 })
 
-export let gameSetting = {
-    canShoot: true
-}
-let playerX = null
-let paused = false
+//event when the user pressed a key on the keyboard
 document.addEventListener('keydown', e => {
 
     keys[e.key] = true
@@ -60,7 +65,7 @@ document.addEventListener('keydown', e => {
     bulletInput.blur()
 
     playerX = getPlayerXRelativeToCanvas(player, canvas)
-    //space
+    //space key
     if (e.key === ' ') {
         if (gameSetting.canShoot) {
 
@@ -79,12 +84,13 @@ document.addEventListener('keydown', e => {
         document.body.classList.add('paused')
         document.querySelector('.pause-popup span').textContent = countDown.textContent
         explosion.style.display = 'none'
-
+//stop the game
         cancelAnimationFrame(REQID)
     }
 })
 
 
+// function to move the player on the x axis
 function movePlayer() {
     const canvasWidth = canvas.clientWidth
     const playerWidth = player.clientWidth
@@ -106,6 +112,7 @@ function movePlayer() {
 
 let bullets = []
 
+//shot the bullet to the top
 function moveBullet() {
 
     for (let i = 0; i < bullets.length; i++) {
@@ -126,6 +133,7 @@ function moveBullet() {
 
 }
 
+// geneerate a new bullet
 function createBullet(playerX) {
     const bullet = document.createElement('span')
     bullet.classList.add('bullet')
@@ -144,6 +152,8 @@ enimieContainer.classList.add('enimieContainer')
 
 canvas.appendChild(enimieContainer)
 
+
+// generate enimies container
 export function createEnimies() {
 
     for (let index = 0; index < 5; index++) {
@@ -158,6 +168,8 @@ export function createEnimies() {
 }
 createEnimies()
 
+
+//when enimies reaches teh edge of the game board
 let reverse = false
 function containerEdge() {
     const invaders = document.querySelectorAll('.enemy')
@@ -180,17 +192,11 @@ function containerEdge() {
 }
 
 
+//move enimies right and left
 function moveEnimieContainer() {
-    // const enimieREC = enimieContainer.getBoundingClientRect()
 
     const { left, right } = containerEdge()
 
-    // if (!reverse && enimieREC.right < canvasREC.right) {
-    //     moveEnimiesHor += moveEnimiesX
-    // } else if (!reverse && enimieREC.right >= canvasREC.right) {
-    //     reverse = true
-    //     moveEnimiesVer += moveEnimiesY
-    // }
 
     if (!reverse && right < canvasREC.right) {
         moveEnimiesHor += moveEnimiesX
@@ -203,13 +209,7 @@ function moveEnimieContainer() {
     } else if (reverse && left <= canvasREC.left) {
         reverse = false
         moveEnimiesVer += moveEnimiesY
-    }
-    // if (reverse && enimieREC.left > canvasREC.left) {
-    //     moveEnimiesHor -= moveEnimiesX
-    // } else if (reverse && enimieREC.left <= canvasREC.left) {
-    //     reverse = false
-    //     moveEnimiesVer += moveEnimiesY
-    // }
+    } 
 
     enimieContainer.style.transform = `translate(${moveEnimiesHor}px,${moveEnimiesVer}px)`
 }
@@ -291,7 +291,6 @@ function checkForCollision_player_enimie() {
 
         if (playerREC.top <= enimieREC.bottom) {
             gameOver('killed')
-            // restartPopup.style.display = 'block'
         }
     }
 }
@@ -306,8 +305,7 @@ export function enemiesShooting() {
         howManyEnimiesCanShot++
     }
 
-    // for (let i = 0; i < howManyEnimiesCanShot; i++) {
-    /////logic for choosing enemies from different indexes
+     /////logic for choosing enemies from different indexes
     let chosenEnimies = new Set()
     if (invaders) {
 
@@ -321,9 +319,7 @@ export function enemiesShooting() {
         }
 
     }
-    // }
 
-    //}, 1000)
 }
 let invadersBullet = []
 
@@ -339,7 +335,6 @@ function moveInvadersBullet() {
         if (bTop >= canvasREC.height) {
             invadersBullet[i].remove()
             ///remove the curcreateBulletrent bullet if it reaches canvas end
-            // invadersBullet = invadersBullet.filter(b => b !== invadersBullet[i])
             invadersBullet.splice(i, 1)
             i--
             continue
@@ -359,12 +354,10 @@ function createEnimiesBullet(invader) {
         bullet.classList.add('invader-bullet')
         bullet.style.left = `${invaderREC.left - canvasREC.left + (invaderREC.width / 2)}px`
         bullet.style.top = `${invaderREC.top - canvasREC.top + invaderREC.height - 5}px`
-        // bullet.style.transform = `translate(50%)`
 
         canvas.appendChild(bullet)
         invadersBullet.push(bullet)
     }
-    //  moveBullet()
 }
 const explosion = document.querySelector('.expl')
 
@@ -406,6 +399,7 @@ function checkForCollision_player_invaderBullet(bullet) {
     }
 }
 
+// update the heart array in the game header
 function updateLives() {
     
     if (player_invaderBullet) {
@@ -456,6 +450,7 @@ console.log('hi');
 }
 
  
+// initialize all values on game start or restart
 export function init() {
     moveEnimiesHor = 0
     isGameOver = false
@@ -480,6 +475,8 @@ export function init() {
     )
     gameLoop()
 }
+
+// remove bullet from the end of the game board
 function removeDOMBullets() {
     const DOM_bullets = document.querySelectorAll('.bullet, .invader-bullet')
     DOM_bullets.forEach(elem => {
@@ -527,6 +524,7 @@ export function handleCountDown() {
 
 }
 
+//game over logic
 function gameOver(from) {
     gameSetting.canShoot = false
     isGameOver = true
@@ -543,6 +541,7 @@ function gameOver(from) {
     cancelAnimationFrame(REQID)
 }
 
+//game win logic
 function gameWin() {
     isGameOver = true
 

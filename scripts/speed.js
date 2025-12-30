@@ -1,8 +1,10 @@
+//initial values
 export let moveEnimiesX = 3
 export let moveEnimiesY = 8
 export const movePlayerSpeed = 5
 export let bulletSpeed = 6
 
+// get elements
 const settings = document.querySelector('.settings')
 export const HorInput = document.querySelector('.settings #hor input')
 export const VerInput = document.querySelector('.settings #ver input')
@@ -20,6 +22,8 @@ const verValue = document.querySelector('[for="ver"] em')
 const bulletValue = document.querySelector('[for="bullet"] em')
 const open = document.querySelector('nav #open')
 
+
+//set the initial values
 horValue.textContent = HorInput.value
 minHor.textContent = HorInput.min
 maxHor.textContent = HorInput.max
@@ -32,6 +36,8 @@ bulletValue.textContent = bulletInput.value
 minBullet.textContent = bulletInput.min
 maxBullet.textContent = bulletInput.max
 
+
+//update vatiables
 HorInput.oninput = (e) => {
     console.log(e);
     horValue.textContent = e.target.value
@@ -57,6 +63,8 @@ open.onclick = () => {
 
 let index = 0
 
+
+// animation to write the game title
 export const writeTitle = (elem, txt) => {
     let a = txt.length
 

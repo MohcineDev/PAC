@@ -18,11 +18,15 @@ const pauseResumeBtn = pausePopup.querySelector('button:nth-of-type(2)')
 
 writeTitle(startPopup.querySelector('h1'), 'Space invader #')
 
+
+// start game button
 startBtn.onclick = () => {
     init()
     document.body.classList.add('playing')
 }
 
+
+//resume button in the  pause popup
 pauseResumeBtn.onclick = () => {
     gameSetting.canShoot = true
     gameLoop()
@@ -33,6 +37,7 @@ pauseResumeBtn.onclick = () => {
 
 }
 
+// button events
 pauseRestartBtn.onclick = () => restartGAME()
 restartBtn.onclick = () => restartGAME()
 gameWinBtn.onclick = () => restartGAME()
@@ -58,11 +63,6 @@ document.addEventListener('keyup', e => {
             startBtn.click()
             console.log('start btn')
         }
-        
-        ////restart do it manually
-        // else if (restartPopup.checkVisibility()) {
-        //     console.log('restart btn')
-        //     restartBtn.click()
-        // }
+    
     }
 })
